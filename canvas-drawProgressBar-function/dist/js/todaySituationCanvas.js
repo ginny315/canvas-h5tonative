@@ -60,7 +60,6 @@ function scaleAndClipImageToRound(ctx,img,left,top,radius){
 	ctx.arc(left, top, radius*3, 0, Math.PI*2, false);
 	ctx.drawImage(img,left,top);
 	ctx.restore();	
-
 }
 
 function convertCanvasToData(canvas){
@@ -132,12 +131,9 @@ function initAjaxLoadInfo(url,data,func,method){
 	str = str.substring(0,str.length-1);
 
 	if(method == 'get') {
-		console.log(url)
-		//var index = Array.prototype.lastIndexOf.call(this,url,'/');
 		var index = url.split('').lastIndexOf('/');
 		url = url.substring(index+1,url.length);
 
-		console.log('url='+url)
 		var myInit = { 
 			method: 'GET',
         	headers: myHeaders,
@@ -155,8 +151,6 @@ function initAjaxLoadInfo(url,data,func,method){
         };
         var myRequest = new Request(url);
 	}
-
-	
 
 	fetch(myRequest,myInit).then(function(response) {
 		return response.json().then(function(data){data.data;
@@ -205,7 +199,7 @@ function compareReal(normalMin,normalMax,realAmount,allAmount){
 	else if(realAmount < normalMax && realAmount > normalMin)
 		return 5;
 }
-//ctx,x,y,width,height,radius,fillStyle,strokeStyle,lineWidth
+
 function drawFoodBar(ctx,min,max,all,top,color,obj,compare,unit) {
 	drawRect(ctx,minLen(min,all,265,245), top, 2, 16,color.colTagBlue,'','');
 	drawRect(ctx,maxLen(max,all,265,245), top, 2, 16,color.colTagBlue,'','');
@@ -375,9 +369,7 @@ window.onload = function() {
 			convertImageToCanvas(ctx,findImgByName('g-release',newImgList),70,1419);
 			convertImageToCanvas(ctx,findImgByName('g-trainjoint',newImgList),70,1491);
 			convertImageToCanvas(ctx,findImgByName('g-time',newImgList),70,1688);
-			convertImageToCanvas(ctx,findImgByName('g-timedevation',newImgList),70,1758);
-			//convertImageToCanvas(ctx,)
-			
+			convertImageToCanvas(ctx,findImgByName('g-timedevation',newImgList),70,1758);			
 
 			canvasWordSet(ctx,'24px jdyt',colWhite,'今日健康得分：',313,221);
 			canvasWordSet(ctx,'30px jdyt',colWhite,'共打败',312,294);
@@ -440,8 +432,6 @@ window.onload = function() {
 				canvasWordSet(ctx,'72px jdyt',color.colProRedLight,sumScoreBeatNumber,420,265);
 				canvasWordSet(ctx,'28px jdyt',colBrownMiddle,sumScoreLevel,276,1977);
 				
-				
-
 				var food = param.eatFoodAmount;
 				for(key in food){
 					switch (key){
@@ -512,7 +502,6 @@ window.onload = function() {
 				}
 			}
 			initAjaxLoadInfo('http://jkm.test.111.com.cn:9081/api/app/health_pi/todayHealthInfo',{userToken:'38_14c3883afc06cf3a527fbe51a647fc09_yzjk',taskDate:1471339506000},drawHealthBar,'get');
-
 			
 		}
 		convertCanvasToData(mycanvas);		

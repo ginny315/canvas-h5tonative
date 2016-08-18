@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>test 750*1200 canvas to base64 size</title>
+	<style type="text/css">
+	.mycanvas{
+		border: 2px solid #000;
+	}
+	button{
+			width: 100px;
+			height: 50px;
+			color: #062837;
+			font-size: 15px;
+			font-weight: bolder;
+			line-height: 15px;
+			border-radius: 5px;
+			background-color: #70d2ea;
+		}
+	#oldImg{
+		border:5px solid red;
+	}
+	</style>
+</head>
+<body>
+<button id="change">变变变</button>
+<img src="test.jpg" id="oldImg">
+<img crossOrigin="Anonymous" src="">
+<script type="text/javascript">
+function convertImageToCanvas(image) {
+	var canvas = document.createElement("canvas");
+	canvas.className = 'mycanvas';
+	canvas.width = image.width;
+	canvas.height = image.height;
+	canvas.getContext("2d").drawImage(image, 0, 60);
+	document.getElementsByTagName('body')[0].appendChild(canvas);
+	return canvas;
+}
+window.onload = function() {
+	//var mycanvas = document.getElementById('mycanvas');
+	document.getElementById('change').onclick = function() {
+		var oldImg = document.getElementById('oldImg');
+		convertImageToCanvas(oldImg);
+		var img = document.getElementsByTagName('canvas')[0];
+		img.crossOrigin = "anonymous";
+		var newImg = img.toDataURL();
+		console.log(newImg);
+		document.getElementsByTagName('img')[1].setAttribute('src',newImg);
+	}
+}
+
+</script>	
+</body>
+</html>
