@@ -53,18 +53,27 @@ function scaleAndClipImageToRound(ctx,img,left,top,radius){
 		width = img.width,
 		height = img.height;
 	ctx.save();
+	var newCanvans = document.createElement('canvas');
+	newCanvans.width = img.width;
+	newCanvans.height = img.height;
+	var newCtx = newCanvans.getContext("2d");
+	
 	scaleBord = (width >= height ? 2*radius/height : 2*radius/width);
-	ctx.translate(left, top);
-	ctx.scale(scaleBord,scaleBord);
+	newCtx.scale(scaleBord,scaleBord);
+	newCtx.drawImage(img,0,0);
 
-	ctx.arc(left, top, radius*3, 0, Math.PI*2, false);
-	ctx.drawImage(img,left,top);
-	ctx.restore();	
+
+	var p = ctx.createPattern(newCanvans,"no-repeat");
+	ctx.fillStyle = p;
+	ctx.translate(left, top);
+	ctx.arc(radius, radius, radius, 0, Math.PI*2);
+	ctx.fill();
+	ctx.restore();
 }
 
 function convertCanvasToData(canvas){
 	console.log('start to convertCanvasToData')
-	var img = document.getElementsByTagName('canvas')[0];
+	var img = document.getElementsByClassName('mycanvas')[0];
 	img.crossOrigin = "anonymous";
 	var newImg = img.toDataURL();
 	//console.log(newImg);
