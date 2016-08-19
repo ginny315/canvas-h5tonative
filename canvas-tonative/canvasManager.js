@@ -1,3 +1,14 @@
+/**
+ * canvas common method
+ * created by ginny
+ * 2016-08-20
+ * including (fill and stroke)rect,round,roundrect,word,
+ * including scale img and cut to round,
+ * you should batch processing imgs first and then convert imgs to canvas element,use find img by name
+ * you should onload all images and then draw and convert canvas to dataURL
+ * use ajax to reach data and then draw in success callback
+ * [pay attention]sequence and ansy
+ */
 define(['zepto','H5ToNative'], function($, H5ToNative) {
 	var CanvasManager = {
 		imgObj:[
