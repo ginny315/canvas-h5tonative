@@ -62,12 +62,13 @@ function scaleAndClipImageToRound(ctx,img,left,top,radius){
 	newCtx.scale(scaleBord,scaleBord);
 	newCtx.drawImage(img,0,0);
 
-
 	var p = ctx.createPattern(newCanvans,"no-repeat");
 	ctx.fillStyle = p;
 	ctx.translate(left, top);
+	ctx.beginPath();
 	ctx.arc(radius, radius, radius, 0, Math.PI*2);
 	ctx.fill();
+	ctx.closePath();
 	ctx.restore();
 }
 
@@ -120,12 +121,14 @@ CanvasRenderingContext2D.prototype.roundRect = function (x, y, width, height, ra
  * [pay attention]exclude strokeStyle = '#000000'
  */
 function canvasDrawRoundRect(ctx,x,y,width,height,radius,fillStyle,strokeStyle,lineWidth){
+	ctx.save();
 	ctx.fillStyle = fillStyle || '';
 	ctx.strokeStyle = strokeStyle || '';
 	ctx.lineWidth = lineWidth || 1;
 	ctx.roundRect(x,y,width,height,radius);
 	if(ctx.fillStyle != '') ctx.fill();
 	if(ctx.strokeStyle != '#000000') ctx.stroke();
+	ctx.restore();
 }
 
 function initAjaxLoadInfo(url,data,func,method){
@@ -171,10 +174,27 @@ function initAjaxLoadInfo(url,data,func,method){
 }
 
 function drawRect(ctx,x, y, width, height,fillStyle,strokeStyle,lineWidth){
+	ctx.save();
 	ctx.fillStyle = fillStyle || '';
 	ctx.strokeStyle = strokeStyle || '';
 	ctx.lineWidth = lineWidth || 1;
 	ctx.fillRect(x, y, width, height);
+	ctx.restore();
+}
+
+function drawRound(ctx, left, top, radius, fillStyle, strokeStyle, lineWidth) {
+	ctx.save();
+	ctx.fillStyle = fillStyle || '';
+	ctx.strokeStyle = strokeStyle || '';
+	ctx.lineWidth = lineWidth || 1;
+	ctx.beginPath();
+	ctx.arc(left + radius, top + radius, radius, 0, Math.PI * 2, true);
+	ctx.closePath();
+	ctx.fillStyle = fillStyle || '';
+	ctx.strokeStyle = strokeStyle || '';
+	if (ctx.fillStyle != '') ctx.fill();
+	if (ctx.strokeStyle != '#000000') ctx.stroke();
+	ctx.restore();
 }
 
 function minLen(normalMin,allAmount,len,offset){
@@ -416,7 +436,7 @@ window.onload = function() {
 			canvasWordSet(ctx,'28px jdyt',colBrownMiddle,'健康日记',203,1932);
 			canvasWordSet(ctx,'28px jdyt',colBrownMiddle,'中',331,1932);
 			canvasWordSet(ctx,'28px jdyt',colBrownMiddle,'健康排名',161,1976);
-			scaleAndClipImageToRound(ctx,findImgByName('testhead',newImgList),57,1690,40);
+			scaleAndClipImageToRound(ctx,findImgByName('testhead',newImgList),57,1890,40);
 			canvasWordSet(ctx,'23px jdyt',colYellowMiddle,'用户名',161,1886);
 			
 			/**
@@ -424,9 +444,10 @@ window.onload = function() {
 			 * 再画加载的头像
 			 * 再画段位
 			 */
-			canvasDrawRoundRect(ctx,233,300,50,28,14,colYellowMiddle,colOrangeMiddle,6);
-			//scaleAndClipImageToRound(ctx,findImgByName('testhead',newImgList),138,213,50);
 			canvasWordSet(ctx,'23px jdyt',colYellowMiddle,'用户名changchanngchang',215,351,null,'center');
+			scaleAndClipImageToRound(ctx,findImgByName('testhead',newImgList),160,233,52);
+			canvasDrawRoundRect(ctx,233,300,50,28,14,colYellowMiddle,colOrangeMiddle,6);
+			canvasWordSet(ctx,'20px jdyt',colBrownMiddleUp,'3',245,307);
 			canvasWordSet(ctx,'16px jdyt',colBrownMiddleUp,'段',260,307);
 			
 			
