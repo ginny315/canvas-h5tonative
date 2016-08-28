@@ -1,26 +1,28 @@
-    var Promise = require('es6-promise').Promise;
-    require('es6-promise').polyfill();
-    require('fetch-polyfill');
-
+define([
+	'zepto',
+	'await',
+	'common'
+], function($,await,common) {
+	'use strict';
 	var CanvasManager = {
 		/**
 		 * just consider function draw as a demo , but use it as obj.attr
 		 * you should exec you method in sequence of painting.
 		 * */
-		draw: function () {
-			var color = {
-				colRed : '#ff4233',
-				colBlue : '#fdc100'
-			}
-			CanvasManager.convertImageToCanvas(ctx, findImgByName('img1', newImgList), 0, 0);
-			CanvasManager.canvasWordSet(ctx, '24px Calibri', colWhite, '这里设置文字', 0, 0);
-			CanvasManager.initAjaxLoadInfo('myurl', {data: 'this is data'},
-				function () {
-					//sth exec after ajax,eg:drawAfterAjax(arguments[0]);
-					CanvasManager.convertCanvasToData(mycanvas);
-				}
-			);
-		},
+		// draw: function () {
+		// 	var color = {
+		// 		colRed : '#ff4233',
+		// 		colBlue : '#fdc100'
+		// 	}
+		// 	CanvasManager.convertImageToCanvas(ctx, findImgByName('img1', newImgList), 0, 0);
+		// 	CanvasManager.canvasWordSet(ctx, '24px Calibri', colWhite, '这里设置文字', 0, 0);
+		// 	CanvasManager.initAjaxLoadInfo('myurl', {data: 'this is data'},
+		// 		function () {
+		// 			//sth exec after ajax,eg:drawAfterAjax(arguments[0]);
+		// 			CanvasManager.convertCanvasToData(mycanvas);
+		// 		}
+		// 	);
+		// },
 		/**
 		 * elm:HTMLElement , append canvas to elm 
 		 * className:canvas has its className
@@ -201,18 +203,15 @@
 	     * if request success,exec callback
 	     */
 		initMultiAjaxLoadInfo: function (urls,func) {
-			console.log('start to ajax')
-			Promise.all(urls.map(function(item){
-				var initparam = item.param || '';
-			    return fetch(item.url).then(function(response) {
-		            return response.text()
-		        }).then(function(data) {
-		            return JSON.parse(data).data;
-		        })
-			})).then(function(data){
-					func(data);
-			});
+			var awaitStr = '';
+			urls.map(urls,function(item,index){
+				common.commonAjax(item.url,item.param,getThings.keep('func'+index, data));
+				awaitStr += 'func'+index+','
+			})
+			
+			//var getThings = await()
+
 		},
 	};
-
-	module.exports = CanvasManager;
+	return CanvasManager;
+});

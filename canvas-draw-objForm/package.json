@@ -12,7 +12,6 @@
     "es6-promise": "^3.2.1",
     "fetch": "^1.1.0",
     "fetch-polyfill": "^0.8.2",
-    "json-loader": "^0.5.4",
     "whatwg-fetch": "^1.0.0"
   },
   "devDependencies": {
@@ -20,6 +19,7 @@
     "style-loader": "*",
     "file-loader": "*",
     "url-loader": "*",
+    "json-loader": "^0.5.4",
     "webpack": "^1.13.1",
     "webpack-dev-server": "*"
   }

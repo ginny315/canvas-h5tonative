@@ -1,20 +1,7 @@
 /**
  * Created by guoningyan on 16/8/22.
  */
-// var $ = require('./resource/js/zepto.js');
-//require('!css./resource/css/normalize.css');
-//require('!css./resource/css/sharerank.css');
-var canvasManager = require( './resource/js/canvasManager.js');
-var sharerankbg = require('./resource/img/g-sharerankbg.png');
-var sharerankpink = require('./resource/img/g-sharerankpink.png');
-var headporaitbg = require('./resource/img/g-headporaitbg.png');
-var sharerankgreen = require('./resource/img/g-sharerankgreen.png');
-var up = require('./resource/img/g-up.png');
-var down = require('./resource/img/g-down.png');
-var download = require('./resource/img/g-download.png');
-var imgDefault = require('./resource/img/imgDefault.jpg');
-var digit = require('./resource/img/digit.png');
-
+define(['canvasManager','await'],function(canvasManager,await){
     var canvasmanager = canvasManager;
     var shareRankList = [], shareRankNewImgList = [];
 
@@ -23,34 +10,36 @@ var digit = require('./resource/img/digit.png');
     /**
      *  删除2行
      */
-    var userHeadPortrait = imgDefault;
+    var userHeadPortrait = './img/imgDefault.jpg';
     var userName = 'ginny';
     
 
     window.onerror = function (e) {console.log(e)}
     var shareRank = {
         init: function () {
-            shareRankList.push({src:sharerankbg, name: 'g-sharerankbg'});
-            shareRankList.push({src:sharerankpink,name:'g-sharerankpink'});
-            shareRankList.push({src:headporaitbg,name:'g-headporaitbg.png'});
-            shareRankList.push({src:sharerankgreen,name:'g-sharerankgreen'});
-            shareRankList.push({src:up,name:'g-up'});
-            shareRankList.push({src:down,name:'g-down'});
-            shareRankList.push({src:download,name:'g-download'});
-            shareRankList.push({src:userHeadPortrait,name:userHeadPortrait});
-            shareRankList.push({src:digit,name:'digit'});
+            shareRankList.push({src:'./img/g-sharerankbg.png', name: 'g-sharerankbg'});
+            shareRankList.push({src:'./img/g-sharerankpink.png',name:'g-sharerankpink'});
+            shareRankList.push({src:'./img/g-headporaitbg.png',name:'g-headporaitbg.png'});
+            shareRankList.push({src:'./img/g-sharerankgreen.png',name:'g-sharerankgreen'});
+            shareRankList.push({src:'./img/g-up.png',name:'g-up'});
+            shareRankList.push({src:'./img/g-down.png',name:'g-down'});
+            shareRankList.push({src:'./img/g-download.png',name:'g-download'});
+            shareRankList.push({src:userHeadPortrait,name:'userHeadPortrait'});
+            shareRankList.push({src:'./img/digit.png',name:'digit'});
 
             var list = batchProcessingImgs(ctx);
-            
+
             function batchProcessingImgs(ctx) {
                 shareRankList.reduce(function(pre,cur){
                     var img = canvasmanager.createNewImg(cur)
-                    img.onload = function(){    
-                        shareRankNewImgList.push(img);
-                        //console.log(shareRankNewImgList)
+                    img.onload = function(){   
+                            // for(var i in shareRankNewImgList) 
+                            //     if(img != shareRankNewImgList[i])
+                                    shareRankNewImgList.push(img);
+                                    console.log(shareRankNewImgList);
                         if (shareRankList.length == list.length){
                             shareRank.drawRank(ctx);//eg:draw(ctx)
-                            //console.dir(shareRankNewImgList)
+                            console.dir(shareRankNewImgList);
                         }
                     }
                 },{});
@@ -86,7 +75,8 @@ var digit = require('./resource/img/digit.png');
             canvasmanager.convertImageToCanvas(ctx, canvasmanager.findImgByName('g-sharerankgreen',shareRankNewImgList),122,460);
 
             //draw head info
-            canvasmanager.scaleAndClipImageToRound(ctx,canvasmanager.findImgByName(userHeadPortrait,shareRankNewImgList),320,67,58);
+            console.dir(shareRankNewImgList)
+            canvasmanager.scaleAndClipImageToRound(ctx,canvasmanager.findImgByName('userHeadPortrait',shareRankNewImgList),320,67,58);
             canvasmanager.canvasWordSet(ctx,'43px jdyt',colBrownMiddleUper,userName,375,223,'','center');
 
             //draw foot
@@ -100,7 +90,7 @@ var digit = require('./resource/img/digit.png');
             canvasmanager.canvasWordSet(ctx,'28px jdyt',colBrownMiddle,'健康日记',208,1145);
             canvasmanager.canvasWordSet(ctx,'28px jdyt',colBrownMiddle,'中',333,1145);
             canvasmanager.canvasWordSet(ctx,'28px jdyt',colBrownMiddle,'健康排名',164,1185);
-            canvasmanager.scaleAndClipImageToRound(ctx,canvasmanager.findImgByName(userHeadPortrait,shareRankNewImgList),59,1091,40);
+            canvasmanager.scaleAndClipImageToRound(ctx,canvasmanager.findImgByName('userHeadPortrait',shareRankNewImgList),59,1091,40);
             canvasmanager.canvasWordSet(ctx,'23px jdyt',colBrownMiddleUper,userName,164,1100);
 
             //canvasmanager.initAjaxLoadInfo('app/rank/rankingList',{userToken:window.dataManager.getLocalStorageData('userToken'),taskDate:(new Date()).getTime()},function(){shareRank.drawGrade(arguments[0]);});
@@ -118,4 +108,5 @@ var digit = require('./resource/img/digit.png');
         }
     };
     shareRank.init();
-
+    return shareRank;
+})
