@@ -67,7 +67,8 @@ var digit = require('./resource/img/digit.png');
             function cb(offset,index){
                 canvasmanager.chooseAndConvertImageToCanvas(ctx, canvasmanager.findImgByName('digit',shareRankNewImgList),offset,0,24,38,234+24*index,382,24,38)
             }
-            canvasmanager.convertDigitToImg(weekSrore,24,cb);        
+            canvasmanager.convertDigitToImg(weekSrore,24,cb); 
+            canvasmanager.convertCanvasToData(shareRankCanvas);       
         },
         drawRank: function (ctx) {
             var colWhite = '#fff2d7',
@@ -100,7 +101,7 @@ var digit = require('./resource/img/digit.png');
             canvasmanager.scaleAndClipImageToRound(ctx,canvasmanager.findImgByName(userHeadPortrait,shareRankNewImgList),59,1091,40);
             canvasmanager.canvasWordSet(ctx,'23px jdyt',colBrownMiddleUper,userName,164,1100);
 
-            //canvasmanager.initAjaxLoadInfo('app/rank/rankingList',{userToken:window.dataManager.getLocalStorageData('userToken'),taskDate:(new Date()).getTime()},function(){canvasmanager.convertCanvasToData(shareRankCanvas);});
+            //canvasmanager.initAjaxLoadInfo('app/rank/rankingList',{userToken:window.dataManager.getLocalStorageData('userToken'),taskDate:(new Date()).getTime()},function(){shareRank.drawGrade(arguments[0]);});
             canvasmanager.initMultiAjaxLoadInfo([
                 {
                     url:'../data/rankingList.json',
@@ -110,7 +111,7 @@ var digit = require('./resource/img/digit.png');
                     url:'../data/rankingList2.json',
                     param:{userToken:'bbb',rankType:1},
                 }],
-                function(){shareRank.drawGrade(arguments[0]);canvasmanager.convertCanvasToData(shareRankCanvas)}
+                function(){shareRank.drawGrade(arguments[0]);}
             );
         }
     };
